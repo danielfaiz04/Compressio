@@ -1,1 +1,9 @@
- 
+backend/firebase-adminsdk.json
+# Other common ignored files for Python and Flask projects
+__pycache__/
+*.pyc
+*.log
+.env
+virtualenv/
+env/
+venv/ 
