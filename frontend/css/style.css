@@ -1,0 +1,270 @@
+:root {
+    --primary-color: #EDC7BE;
+    --primary-dark: #825fff;
+    --text-color: #333;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
+    background-color: #FFF0F5;
+}
+
+/* Navbar */
+.navbar {
+    border-bottom: 1px solid var(--border-color);
+    background-color: #f0aebc;
+}
+
+.navbar-brand img {
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+/* Cards */
+.card {
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Forms */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(250, 218, 221, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: var(--text-color);
+}
+
+.btn-outline-primary {
+    color: var(--text-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+/* Custom style for Process File Button */
+#processFileBtn {
+    background-color: #1b0763;
+    border-color: #1b0763;
+    color: white;
+}
+
+#processFileBtn:hover {
+    background-color: #1b0763; /* A slightly lighter shade for hover */
+    border-color: #1b0763;
+    color: white;
+}
+
+/* Custom style for Choose Files Button (matching Process File Button) */
+#chooseFilesButton {
+    background-color: #1b0763;
+    border-color: #1b0763;
+    color: white;
+}
+
+#chooseFilesButton:hover {
+    background-color: #1b0763;
+    border-color: #1b0763;
+    color: white;
+}
+
+/* Custom style for Download Button */
+.btn-download {
+    background-color: #ac3b61;
+    border-color: #ac3b61;
+    color: white;
+}
+
+.btn-download:hover {
+    background-color: #922b51; /* Slightly darker for hover */
+    border-color: #922b51;
+    color: white;
+}
+
+/* History List */
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-info {
+    flex: 1;
+}
+
+.history-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Progress Bar */
+.progress {
+    height: 0.5rem;
+    background-color: var(--primary-color);
+}
+
+.progress-bar {
+    background-color: var(--primary-dark);
+}
+
+/* Modals */
+.modal-content {
+    border: none;
+    border-radius: 1rem;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .history-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .history-actions {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Loading Spinner */
+.spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid var(--primary-color);
+    border-top-color: var(--primary-dark);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Toast Notifications */
+.toast {
+    background-color: white;
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.toast-header {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+/* File Upload Area */
+.file-upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    transition: border-color 0.3s ease;
+}
+
+.file-upload-area:hover,
+.file-upload-area.dragover {
+    border-color: var(--primary-color);
+}
+
+.file-upload-area input[type="file"] {
+    display: none;
+}
+
+/* Compression Stats */
+.compression-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.stat-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+} 

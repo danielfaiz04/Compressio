@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Compressio - File Compression Made Easy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/logo.png" alt="Compressio Logo" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" data-translate-key="home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html" data-translate-key="about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <button id="loginBtn" class="btn btn-outline-primary ms-2">Sign in with Google</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1080;">
+    </div>
+
+    <main class="container py-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 mb-3" data-translate-key="aboutTitle">About Compressio</h1>
+                    <p class="lead text-muted" data-translate-key="aboutTagline">A modern web application for file compression</p>
+                </div>
+
+                <div class="card shadow-sm mb-5">
+                    <div class="card-body p-4">
+                        <h2 class="h4 mb-4" data-translate-key="whatIsCompressio">What is Compressio?</h2>
+                        <p data-translate-key="whatIsCompressioText">
+                            Compressio is a web-based file compression application that allows users to compress and decompress files
+                            with a clean, user-friendly interface. The application features Firebase Authentication for secure access
+                            and session-based compression limits.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-5">
+                    <div class="card-body p-4">
+                        <h2 class="h4 mb-4" data-translate-key="featuresTitle">Features</h2>
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <h3 class="h5" data-translate-key="fileCompressionTitle">File Compression</h3>
+                                <p data-translate-key="fileCompressionText">Compress various file types including images and documents using different algorithms.</p>
+                            </li>
+                            <li class="mb-3">
+                                <h3 class="h5" data-translate-key="googleSignInTitle">Google Sign-In</h3>
+                                <p data-translate-key="googleSignInText">Secure authentication using Firebase and Google Sign-In.</p>
+                            </li>
+                            <li class="mb-3">
+                                <h3 class="h5" data-translate-key="compressionHistoryTitle">Compression History</h3>
+                                <p data-translate-key="compressionHistoryText">View your recent compression activities and download results.</p>
+                            </li>
+                            <li class="mb-3">
+                                <h3 class="h5" data-translate-key="multipleAlgorithmsTitle">Multiple Algorithms</h3>
+                                <p data-translate-key="multipleAlgorithmsText">Choose between Huffman coding and Run-Length Encoding based on your needs.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-5">
+                    <div class="card-body p-4">
+                        <h2 class="h4 mb-4" data-translate-key="supportedFilesTitle">Supported File Types</h2>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="h5" data-translate-key="imagesTitle">Images</h3>
+                                <ul>
+                                    <li>PNG (.png)</li>
+                                    <li>JPEG (.jpg, .jpeg)</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 class="h5" data-translate-key="documentsTitle">Documents</h3>
+                                <ul>
+                                    <li>Text Files (.txt)</li>
+                                    <li>PDF Documents (.pdf)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-5">
+                    <div class="card-body p-4">
+                        <h2 class="h4 mb-4" data-translate-key="technologyUsedTitle">Technology Used</h2>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3 class="h5" data-translate-key="frontendTitle">Frontend</h3>
+                                <ul>
+                                    <li>HTML5</li>
+                                    <li>CSS3</li>
+                                    <li>JavaScript (Vanilla)</li>
+                                    <li>Bootstrap 5</li>
+                                    <li>Firebase Authentication</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 class="h5" data-translate-key="backendTitle">Backend</h3>
+                                <ul>
+                                    <li>Python 3</li>
+                                    <li>Flask</li>
+                                    <li>Flask-CORS</li>
+                                    <li>Pillow (for image processing)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-5">
+                    <div class="card-body p-4">
+                        <h2 class="h4 mb-4" data-translate-key="howToUseTitle">How to Use Compressio</h2>
+                        <ol>
+                            <li class="mb-2" data-translate-key="step1">
+                                Upload Your File: Drag and drop your file into the designated area or click "Choose Files" to select it from your device.
+                            </li>
+                            <li class="mb-2" data-translate-key="step2">
+                                Select Compression Type: Choose between "Compress" or "Decompress" based on your needs.
+                            </li>
+                            <li class="mb-2" data-translate-key="step3">
+                                Choose Algorithm (Optional): Select your preferred compression algorithm. Auto (automatically selects the best algorithm for your file), Huffman Coding (an efficient method for lossless data compression), or Run-Length Encoding (a form of data compression in which runs of data are stored as a single data value and count).
+                            </li>
+                            <li class="mb-2" data-translate-key="step4">
+                                Process File: Click the "Process File" button to start the compression or decompression.
+                            </li>
+                            <li class="mb-2" data-translate-key="step5">
+                                Download Result: Once processed, the compressed/decompressed file will appear in the "Recent Compressions" table. Click "Download" to save it.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Language Selector -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;">
+        <select class="form-select form-select-sm" id="languageSelect">
+            <option value="en">English</option>
+            <option value="id">Bahasa Indonesia</option>
+        </select>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/compress.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html> 
