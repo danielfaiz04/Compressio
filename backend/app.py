@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from utils.file_utils import validate_file, save_file
 from utils.huffman import compress_huffman, decompress_huffman
 from utils.rle import compress_rle, decompress_rle
+import sys
 
 app = Flask(__name__)
 CORS(app)
@@ -35,6 +36,8 @@ def serve_static_frontend(path):
 
 @app.route('/api/compress', methods=['POST'])
 def compress_file():
+    print("DEBUG: Masuk ke /api/compress", file=sys.stderr)
+    sys.stderr.flush()
     if 'file' not in request.files:
         return jsonify({'error': 'No file provided'}), 400
     
@@ -51,7 +54,8 @@ def compress_file():
         # Save uploaded file
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        print(f"Saving uploaded file to: {filepath}")
+        print(f"DEBUG: Menyimpan file ke {filepath}", file=sys.stderr)
+        sys.stderr.flush()
         file.save(filepath)
         
         # Determine compression algorithm based on file type
@@ -92,8 +96,8 @@ def compress_file():
         return jsonify(response_data)
         
     except Exception as e:
-        print(f"Error during compression: {str(e)}")
-        # Clean up uploaded file if it exists
+        print(f"ERROR: {str(e)}", file=sys.stderr)
+        sys.stderr.flush()
         if os.path.exists(filepath):
             os.remove(filepath)
         return jsonify({'error': str(e)}), 500

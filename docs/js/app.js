@@ -195,7 +195,7 @@ window.addEventListener('offline', () => {
 
 // Constants
 const MAX_COMPRESSIONS = 5;
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://compressio-production.up.railway.app';
 
 // State management
 let compressionHistory = JSON.parse(localStorage.getItem('compressionHistory') || '[]');
