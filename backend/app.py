@@ -7,12 +7,15 @@ from utils.huffman import compress_huffman, decompress_huffman
 from utils.rle import compress_rle, decompress_rle
 import sys
 
+print("DEBUG: Flask app.py loaded", file=sys.stderr)
+sys.stderr.flush()
+
 app = Flask(__name__)
 CORS(app)
 
 # Configuration
-UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'uploads')
-DOWNLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'downloads')
+UPLOAD_FOLDER = '/tmp/uploads'
+DOWNLOAD_FOLDER = '/tmp/downloads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'txt', 'pdf'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -151,6 +154,12 @@ def download_file(filename):
     except Exception as e:
         print(f"Error during download: {str(e)}")
         return jsonify({'error': str(e)}), 404
+
+@app.route('/test', methods=['GET'])
+def test():
+    print("DEBUG: /test endpoint hit", file=sys.stderr)
+    sys.stderr.flush()
+    return "OK", 200
 
 # Add CORS headers
 @app.after_request
