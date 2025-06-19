@@ -39,15 +39,21 @@ def compress_file():
     print("DEBUG: Masuk ke /api/compress", file=sys.stderr)
     sys.stderr.flush()
     if 'file' not in request.files:
+        print("DEBUG: Tidak ada file di request", file=sys.stderr)
+        sys.stderr.flush()
         return jsonify({'error': 'No file provided'}), 400
     
     file = request.files['file']
     algorithm = request.form.get('algorithm', 'auto')
     
     if file.filename == '':
+        print("DEBUG: Tidak ada file yang dipilih", file=sys.stderr)
+        sys.stderr.flush()
         return jsonify({'error': 'No file selected'}), 400
     
     if not allowed_file(file.filename):
+        print(f"DEBUG: File type not allowed: {file.filename}", file=sys.stderr)
+        sys.stderr.flush()
         return jsonify({'error': 'File type not allowed'}), 400
     
     try:
