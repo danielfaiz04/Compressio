@@ -38,7 +38,7 @@ class FileCompressor {
             formData.append('file', file);
             formData.append('algorithm', 'auto');
 
-            const response = await fetch('https://compressio-production.up.railway.app/api/compress', {
+            const response = await fetch('/api/compress', {
                 method: 'POST',
                 body: formData
             });
@@ -89,7 +89,7 @@ class FileCompressor {
             formData.append('file', file);
             formData.append('algorithm', 'auto');
 
-            const response = await fetch('https://compressio-production.up.railway.app/api/compress', {
+            const response = await fetch('/api/decompress', {
                 method: 'POST',
                 body: formData
             });
@@ -186,7 +186,7 @@ class FileCompressor {
     async downloadFile(filename) {
         try {
             console.log(`Attempting to download file: ${filename}`);
-            const response = await fetch(`https://compressio-production.up.railway.app/api/compress`);
+            const response = await fetch(`/api/download/${filename}`);
             
             if (!response.ok) {
                 const errorData = await response.json();

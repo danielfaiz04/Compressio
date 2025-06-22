@@ -31,11 +31,11 @@ def allowed_file(filename):
 
 @app.route('/')
 def serve_index():
-    return send_from_directory('../frontend', 'index.html')
+    return send_from_directory('../docs', 'index.html')
 
 @app.route('/<path:path>')
 def serve_static_frontend(path):
-    return send_from_directory('../frontend', path)
+    return send_from_directory('../docs', path)
 
 @app.route('/api/compress', methods=['POST'])
 def compress_file():
