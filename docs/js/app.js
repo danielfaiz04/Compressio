@@ -26,9 +26,11 @@ const translations = {
         loginSuccess: 'Successfully logged in!',
         loginFailed: 'Login failed. Please try again.',
         logoutSuccess: 'Successfully logged out!',
-        logoutFailed: 'Logout failed. Please try again.',
+        logoutFailed: 'Logout failed, please try again.',
         online: 'You are back online!',
         offline: 'You are offline. Some features may not work.',
+        noFileSelected: 'No file selected. Please choose a file to process.',
+        errorProcessingFile: 'An error occurred during file processing.',
         
         // About Page Translations
         aboutTitle: 'About Compressio',
@@ -49,7 +51,12 @@ const translations = {
         documentsTitle: 'Documents',
         techStackTitle: 'Technology Stack',
         frontendTitle: 'Frontend',
-        backendTitle: 'Backend'
+        backendTitle: 'Backend',
+        delete: 'Delete',
+        historyEntryDeleted: 'History entry deleted successfully.',
+        fileSelected: "File Selected",
+        readyToCompress: "Ready to compress",
+        changeFile: "Change File"
     },
     id: {
         title: 'Compressio',
@@ -80,6 +87,8 @@ const translations = {
         logoutFailed: 'Gagal keluar. Silakan coba lagi.',
         online: 'Anda kembali online!',
         offline: 'Anda sedang offline. Beberapa fitur mungkin tidak berfungsi.',
+        noFileSelected: 'Tidak ada file yang dipilih. Harap pilih file untuk diproses.',
+        errorProcessingFile: 'Terjadi kesalahan selama pemrosesan file.',
         
         // About Page Translations (Bahasa Indonesia)
         aboutTitle: 'Tentang Compressio',
@@ -98,7 +107,7 @@ const translations = {
         supportedFilesTitle: 'Jenis File yang Didukung',
         imagesTitle: 'Gambar',
         documentsTitle: 'Dokumen',
-        techStackTitle: 'Tumpukan Teknologi',
+        techStackTitle: 'Technology Stack',
         frontendTitle: 'Frontend',
         backendTitle: 'Backend',
         technologyUsedTitle: 'Teknologi yang Digunakan',
@@ -109,9 +118,24 @@ const translations = {
         step2: 'Pilih Jenis Kompresi: Pilih antara "Kompres" atau "Dekompresi" berdasarkan kebutuhan Anda.',
         step3: 'Pilih Algoritma (Opsional): Pilih algoritma kompresi pilihan Anda. Otomatis (secara otomatis memilih algoritma terbaik untuk file Anda), Huffman Coding (metode efisien untuk kompresi data lossless), atau Run-Length Encoding (bentuk kompresi data di mana urutan data disimpan sebagai nilai data tunggal dan hitungan).',
         step4: 'Proses File: Klik tombol "Proses File" untuk memulai kompresi atau dekompresi.',
-        step5: 'Unduh Hasil: Setelah diproses, file yang dikompres/didekompres akan muncul di tabel "Kompresi Terbaru". Klik "Unduh" untuk menyimpannya.'
+        step5: 'Unduh Hasil: Setelah diproses, file yang dikompres/didekompres akan muncul di tabel "Kompresi Terbaru". Klik "Unduh" untuk menyimpannya.',
+        delete: 'Hapus',
+        historyEntryDeleted: 'Entri riwayat berhasil dihapus.',
+        fileSelected: "File Terpilih",
+        readyToCompress: "Siap untuk dikompresi",
+        changeFile: "Ganti File"
     }
 };
+
+// Placeholder for compression limit check (moved from compress.js)
+function checkCompressionLimit() {
+    // For now, always allow compression. 
+    // This function will be properly implemented with authentication logic.
+    return true;
+}
+
+// Declare fileCompressor globally, but initialize it inside initializeApp
+let fileCompressor;
 
 // Language switcher
 document.getElementById('languageSelect').addEventListener('change', (e) => {
@@ -195,7 +219,7 @@ window.addEventListener('offline', () => {
 
 // Constants
 const MAX_COMPRESSIONS = 5;
-const API_BASE_URL = 'https://compressio-production.up.railway.app';
+const API_BASE_URL = 'http://localhost:8000'; // Diperbarui untuk menunjuk ke backend lokal FastAPI
 
 // State management
 let compressionHistory = JSON.parse(localStorage.getItem('compressionHistory') || '[]');
@@ -203,159 +227,142 @@ let compressionHistory = JSON.parse(localStorage.getItem('compressionHistory') |
 // DOM Elements
 const uploadForm = document.getElementById('uploadForm');
 const fileInput = document.getElementById('fileInput');
-const compressionType = document.getElementById('compressionType');
-const historyTable = document.getElementById('historyTable'); // Corrected from historyList
-const selectedFileNameDisplay = document.getElementById('selectedFileName');
-const fileNameSpan = document.getElementById('fileNameDisplay');
-const clearFileBtn = document.getElementById('clearFileSelection');
-const processFileButton = document.querySelector('#uploadForm button[type="submit"]');
+const compressionType = document.getElementById('compressionType'); // Mungkin tidak diperlukan lagi jika seleksi AI penuh di backend
+const historyTable = document.getElementById('historyTable');
+const selectedFileNameDisplay = document.getElementById('selectedFileName'); // Tampilan nama file yang dipilih
+const fileNameSpan = document.getElementById('fileNameDisplay'); // Span untuk nama file
+const clearFileBtn = document.getElementById('clearFileSelection'); // Tombol untuk menghapus pilihan file
+const processFileButton = document.querySelector('#uploadForm button[type="submit"]'); // Tombol proses file
 
 // Event Listeners
+const dropZone = document.getElementById('dropZone');
+
 document.addEventListener('DOMContentLoaded', () => {
     initializeApp();
-    // renderHistory() is now handled by fileCompressor.loadCompressionHistory();
 });
 
 // Initialize application
 function initializeApp() {
+    // Initialize file compressor here to ensure compress.js has loaded
+    window.fileCompressor = new FileCompressor(checkCompressionLimit); // Paparkan secara global untuk akses yang lebih mudah
+
     // Set up file input change handler
     fileInput.addEventListener('change', handleFileSelect);
     
-    // Set up form submit handler
-    uploadForm.addEventListener('submit', handleFormSubmit);
+    // Set up form submit handler - Delegasikan ke fileCompressor.compressFile
+    uploadForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Mencegah pengiriman form default
+        const files = fileInput.files; // Ambil file dari input
+        if (files.length > 0) {
+            window.fileCompressor.compressFile(files[0]); // Panggil metode kompresi
+        } else {
+            showToast(translations[getCurrentLanguage()].noFileSelected, 'warning');
+        }
+    });
 
     // Set up clear file selection button
     if (clearFileBtn) {
         clearFileBtn.addEventListener('click', clearFileSelection);
     }
-    
-    // Set up drag and drop
-    const dropZone = document.getElementById('dropZone'); // Get dropZone by ID
-    if (dropZone) {
-        dropZone.addEventListener('dragover', handleDragOver);
-        dropZone.addEventListener('dragleave', handleDragLeave);
-        dropZone.addEventListener('drop', handleDrop);
-        // Add click event for dropZone to trigger file input click
-        dropZone.addEventListener('click', () => fileInput.click());
-    }
 
-    // Initial state for process button
-    processFileButton.disabled = true; 
+    // Update UI language on load
+    updateLanguage(getCurrentLanguage());
 
-    // Initialize language update on load (Consolidated here)
-    const preferredLanguage = localStorage.getItem('preferredLanguage') || 'id';
-    const languageSelect = document.getElementById('languageSelect');
-    if (languageSelect) {
-        languageSelect.value = preferredLanguage;
-        updateLanguage(preferredLanguage); // Call updateLanguage here
-        languageSelect.addEventListener('change', (e) => {
-            const lang = e.target.value;
-            localStorage.setItem('preferredLanguage', lang);
-            updateLanguage(lang);
-        });
-    }
+    // Populate compression history on load
+    window.fileCompressor.loadCompressionHistory();
 }
 
-// Handle file selection
+// Handle file selection from input
 function handleFileSelect(event) {
     const file = event.target.files[0];
     if (file) {
         displaySelectedFile(file.name);
+        // `fileCompressor.handleFiles` akan dipanggil pada `form submit` atau `drop`
+        // Jadi, hanya perlu menampilkan nama file yang dipilih di sini.
     } else {
         clearFileSelection();
     }
 }
 
-// Handle form submission
-async function handleFormSubmit(event) {
-    event.preventDefault();
-    const file = fileInput.files[0];
-    if (file) {
-        const operation = document.querySelector('input[name="operation"]:checked').value;
-        if (validateCompressionSettings(file, compressionType.value, operation)) {
-             // Use fileCompressor from compress.js to handle the actual logic
-            fileCompressor.handleFiles([file], operation); 
-        }
-    } else {
-        showToast('Please select a file', 'warning');
-    }
-}
+// Fungsi handleFormSubmit sebelumnya kini di-inline ke event listener submit di initializeApp
+// Fungsi showCompressionProgress, updateCompressionProgress, removeCompressionProgress, showCompressionResults
+// kini ditangani atau tidak relevan lagi karena logika utama di compress.js
 
-// Handle drag and drop
-function handleDragOver(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    event.currentTarget.classList.add('dragover');
-}
-
-function handleDragLeave(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    event.currentTarget.classList.remove('dragover');
-}
-
-function handleDrop(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    event.currentTarget.classList.remove('dragover');
-    
-    const file = event.dataTransfer.files[0];
-    if (file) {
-        displaySelectedFile(file.name);
-    }
-}
-
-// Function to display the selected file name
 function displaySelectedFile(fileName) {
-    fileNameSpan.textContent = fileName;
-    selectedFileNameDisplay.style.display = 'block';
-    processFileButton.disabled = false; // Enable process button
+    if (selectedFileNameDisplay) {
+        selectedFileNameDisplay.textContent = fileName;
+        selectedFileNameDisplay.style.display = 'block';
+    }
+    if (fileNameSpan) {
+        fileNameSpan.textContent = fileName;
+        fileNameSpan.style.display = 'inline';
+    }
+    if (clearFileBtn) {
+        clearFileBtn.style.display = 'inline-block';
+    }
+    if (processFileButton) {
+        processFileButton.disabled = false;
+    }
+    // Update dropZone innerHTML based on selected file
+    const dropZone = document.getElementById('dropZone');
+    if (dropZone) {
+        dropZone.innerHTML = `
+            <h3>${translations[getCurrentLanguage()].fileSelected}: ${fileName}</h3>
+            <p>${translations[getCurrentLanguage()].readyToCompress}</p>
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                ${translations[getCurrentLanguage()].changeFile}
+            </button>
+        `;
+        // Reattach event listener to the newly created fileInput element
+        document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+    }
 }
 
-// Function to clear the selected file
 function clearFileSelection() {
-    fileInput.value = ''; // Clear the file input
+    fileInput.value = ''; // Clear the selected file from the input
+    if (selectedFileNameDisplay) {
+        selectedFileNameDisplay.textContent = '';
+        selectedFileNameDisplay.style.display = 'none';
+    }
+    if (fileNameSpan) {
     fileNameSpan.textContent = '';
-    selectedFileNameDisplay.style.display = 'none';
-    processFileButton.disabled = true; // Disable process button
+        fileNameSpan.style.display = 'none';
+    }
+    if (clearFileBtn) {
+        clearFileBtn.style.display = 'none';
+    }
+    if (processFileButton) {
+        processFileButton.disabled = true;
+    }
+    // Restore dropZone innerHTML to initial state
+    const dropZone = document.getElementById('dropZone');
+    if (dropZone) {
+        dropZone.innerHTML = `
+            <h3>${translations[getCurrentLanguage()].dragDrop}</h3>
+            <p>${translations[getCurrentLanguage()].or}</p>
+            <input type="file" id="fileInput" class="d-none" accept=".jpg,.jpeg,.png,.txt,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.mp4,.mpeg,.mov,.mp3,.wav,.json,.bin">
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                ${translations[getCurrentLanguage()].chooseFiles}
+            </button>
+        `;
+        // Reattach event listener to the newly created fileInput element
+        document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+    }
 }
 
-// Moved from compress.js to app.js to consolidate file handling
+// These functions are now handled by FileCompressor in compress.js or are no longer needed here.
+// Keeping them for context, but they will be removed if no longer referenced.
 function validateCompressionSettings(file, compressionType, operation) {
-    const ext = '.' + file.name.split('.').pop().toLowerCase();
-    
-    // Check if file type is supported for the selected compression type
-    if (compressionType === COMPRESSION_TYPES.HUFFMAN && !['.png', '.jpg', '.jpeg'].includes(ext)) {
-        showToast('Huffman compression only supports image files', 'warning');
-        return false;
-    }
-    
-    if (compressionType === COMPRESSION_TYPES.RLE && !['.txt', '.pdf'].includes(ext)) {
-        showToast('RLE compression only supports text and PDF files', 'warning');
-        return false;
-    }
-    
-    // Check if operation is valid for the file
-    if (operation === 'decompress') {
-        // Allow decompressing any file type, but optionally warn if not a 'compressed_' file
-        // The backend handles the actual decompression logic based on algorithm
-        // if (!file.name.startsWith('compressed_') && !file.name.startsWith('decompressed_')) {
-        //     showToast('This file does not appear to be a compressed file', 'warning');
-        //     // return false; // Decide if this should strictly prevent decompression
-        // }
-    }
-    
+    // Logic is now primarily in isValidFile in compress.js
     return true;
 }
 
-// Constants for compression types (moved from compress.js for validation logic)
 const COMPRESSION_TYPES = {
     AUTO: 'auto',
     HUFFMAN: 'huffman',
     RLE: 'rle'
 };
 
-// Show/hide loading state
 function showLoading(show) {
     const submitBtn = uploadForm.querySelector('button[type="submit"]');
     if (show) {
@@ -367,7 +374,6 @@ function showLoading(show) {
     }
 }
 
-// Format file size
 function formatSize(bytes) {
     const units = ['B', 'KB', 'MB', 'GB'];
     let size = bytes;
