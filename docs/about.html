@@ -14,7 +14,7 @@
             <a class="navbar-brand" href="index.html">
                 <img src="assets/logo.png" alt="Compressio Logo" height="40">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -49,9 +49,7 @@
                     <div class="card-body p-4">
                         <h2 class="h4 mb-4" data-translate-key="whatIsCompressio">What is Compressio?</h2>
                         <p data-translate-key="whatIsCompressioText">
-                            Compressio is a web-based file compression application that allows users to compress and decompress files
-                            with a clean, user-friendly interface. The application features Firebase Authentication for secure access
-                            and session-based compression limits.
+                            Compressio is a modern web-based file compression application that allows users to compress and decompress various file types with a clean, user-friendly interface. The application features Google Authentication (Firebase) for secure access, session-based compression limits, and advanced options like AI-based method selection and sensitive content detection.
                         </p>
                     </div>
                 </div>
@@ -62,7 +60,7 @@
                         <ul class="list-unstyled">
                             <li class="mb-3">
                                 <h3 class="h5" data-translate-key="fileCompressionTitle">File Compression</h3>
-                                <p data-translate-key="fileCompressionText">Compress various file types including images and documents using different algorithms.</p>
+                                <p data-translate-key="fileCompressionText">Compress various file types including images, documents, videos, audio, and archives using modern algorithms.</p>
                             </li>
                             <li class="mb-3">
                                 <h3 class="h5" data-translate-key="googleSignInTitle">Google Sign-In</h3>
@@ -70,11 +68,19 @@
                             </li>
                             <li class="mb-3">
                                 <h3 class="h5" data-translate-key="compressionHistoryTitle">Compression History</h3>
-                                <p data-translate-key="compressionHistoryText">View your recent compression activities and download results.</p>
+                                <p data-translate-key="compressionHistoryText">View your recent compression activities, see compression ratio, and download or compare results.</p>
                             </li>
                             <li class="mb-3">
-                                <h3 class="h5" data-translate-key="multipleAlgorithmsTitle">Multiple Algorithms</h3>
-                                <p data-translate-key="multipleAlgorithmsText">Choose between Huffman coding and Run-Length Encoding based on your needs.</p>
+                                <h3 class="h5">Multiple Compression Methods</h3>
+                                <p>Choose between AI Selection, Gzip, Brotli, WebP, PDF Optimize, Office Optimize, and Video Optimize. Each method is tailored for specific file types and use cases.</p>
+                            </li>
+                            <li class="mb-3">
+                                <h3 class="h5">Compression Profiles</h3>
+                                <p>Select from Default, Web, Archive, or Network profiles to optimize for your needs.</p>
+                            </li>
+                            <li class="mb-3">
+                                <h3 class="h5">Sensitive Mode</h3>
+                                <p>Enable sensitive mode to detect sensitive entities in text-based files using advanced NLP.</p>
                             </li>
                         </ul>
                     </div>
@@ -89,6 +95,12 @@
                                 <ul>
                                     <li>PNG (.png)</li>
                                     <li>JPEG (.jpg, .jpeg)</li>
+                                    <li>WebP (.webp)</li>
+                                </ul>
+                                <h3 class="h5">Audio</h3>
+                                <ul>
+                                    <li>MP3 (.mp3)</li>
+                                    <li>WAV (.wav)</li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
@@ -96,6 +108,15 @@
                                 <ul>
                                     <li>Text Files (.txt)</li>
                                     <li>PDF Documents (.pdf)</li>
+                                    <li>Word (.doc, .docx)</li>
+                                    <li>Excel (.xls, .xlsx)</li>
+                                    <li>PowerPoint (.ppt, .pptx)</li>
+                                </ul>
+                                <h3 class="h5">Video & Archives</h3>
+                                <ul>
+                                    <li>MP4 (.mp4), MPEG (.mpeg), MOV (.mov)</li>
+                                    <li>ZIP (.zip), RAR (.rar)</li>
+                                    <li>JSON (.json), BIN (.bin)</li>
                                 </ul>
                             </div>
                         </div>
@@ -109,9 +130,7 @@
                             <div class="col-md-6">
                                 <h3 class="h5" data-translate-key="frontendTitle">Frontend</h3>
                                 <ul>
-                                    <li>HTML5</li>
-                                    <li>CSS3</li>
-                                    <li>JavaScript (Vanilla)</li>
+                                    <li>HTML5, CSS3, JavaScript (Vanilla)</li>
                                     <li>Bootstrap 5</li>
                                     <li>Firebase Authentication</li>
                                 </ul>
@@ -120,9 +139,10 @@
                                 <h3 class="h5" data-translate-key="backendTitle">Backend</h3>
                                 <ul>
                                     <li>Python 3</li>
-                                    <li>Flask</li>
-                                    <li>Flask-CORS</li>
-                                    <li>Pillow (for image processing)</li>
+                                    <li>FastAPI, Uvicorn</li>
+                                    <li>SQLAlchemy (SQLite)</li>
+                                    <li>Pillow, OpenCV, scikit-image, pypdf, moviepy, brotli, gzip, python-magic, diff-match-patch, lxml, requests</li>
+                                    <li>spaCy, TextBlob, NLTK (for sensitive mode/NLP)</li>
                                 </ul>
                             </div>
                         </div>
@@ -137,16 +157,16 @@
                                 Upload Your File: Drag and drop your file into the designated area or click "Choose Files" to select it from your device.
                             </li>
                             <li class="mb-2" data-translate-key="step2">
-                                Select Compression Type: Choose between "Compress" or "Decompress" based on your needs.
+                                Select Compression Method & Profile: Choose your preferred compression method (AI, Gzip, Brotli, WebP, PDF, Office, Video) and profile (Default, Web, Archive, Network).
                             </li>
                             <li class="mb-2" data-translate-key="step3">
-                                Choose Algorithm (Optional): Select your preferred compression algorithm. Auto (automatically selects the best algorithm for your file), Huffman Coding (an efficient method for lossless data compression), or Run-Length Encoding (a form of data compression in which runs of data are stored as a single data value and count).
+                                (Optional) Enable Sensitive Mode: Detect sensitive content in text-based files.
                             </li>
                             <li class="mb-2" data-translate-key="step4">
-                                Process File: Click the "Process File" button to start the compression or decompression.
+                                Process File: Click the "Process File" button to start the compression.
                             </li>
                             <li class="mb-2" data-translate-key="step5">
-                                Download Result: Once processed, the compressed/decompressed file will appear in the "Recent Compressions" table. Click "Download" to save it.
+                                Download or Compare Result: Once processed, the compressed file will appear in the "Compression History" table. Click "Download" or "Compare" to view details.
                             </li>
                         </ol>
                     </div>
@@ -157,7 +177,7 @@
 
     <!-- Language Selector -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;">
-        <select class="form-select form-select-sm" id="languageSelect">
+        <select class="form-select form-select-sm" id="languageSelect" title="Select language">
             <option value="en">English</option>
             <option value="id">Bahasa Indonesia</option>
         </select>

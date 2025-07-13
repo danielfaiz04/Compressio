@@ -1,104 +1,109 @@
 # Compressio - File Compression Web Application
 
-Compressio is a web-based file compression application that allows users to compress and decompress files with a clean, user-friendly interface. The application features Firebase Authentication for secure access and session-based compression limits.
+Compressio adalah aplikasi web modern untuk kompresi file dengan antarmuka ramah pengguna, mendukung berbagai jenis file, pilihan metode/profil kompresi, mode sensitif, serta autentikasi Google (Firebase).
 
-## Features
+## Fitur Utama
 
-- File compression and decompression
-- Google Sign-In authentication via Firebase
-- Session-based compression history
-- Support for various file types (images, documents)
-- Clean and responsive UI
-- No database required (uses sessionStorage/localStorage)
+- Kompresi berbagai file: gambar, dokumen, video, audio, arsip, dsb.
+- Pilihan metode kompresi: AI Selection, Gzip, Brotli, WebP, PDF Optimize, Office Optimize, Video Optimize.
+- Profil kompresi: Default, Web, Archive, Network.
+- Mode sensitif untuk deteksi entitas sensitif pada file teks (NLP).
+- Riwayat kompresi: lihat rasio, ukuran asli, ukuran terkompresi, dan aksi (Download, Compare, Delete).
+- Komparasi file (perbandingan hasil kompresi).
+- Batas kompresi untuk pengguna anonim, tanpa batas untuk pengguna login.
+- Autentikasi Google (Firebase).
+- UI responsif, mendukung multi-bahasa (EN/ID).
 
 ## Tech Stack
 
 ### Frontend
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
+- HTML5, CSS3, JavaScript (Vanilla)
+- Bootstrap 5
 - Firebase Authentication
 
 ### Backend
 - Python 3
-- Flask
-- Flask-CORS
+- FastAPI, Uvicorn
+- SQLAlchemy (SQLite)
+- Pillow, OpenCV, scikit-image, pypdf, moviepy, brotli, gzip, python-magic, diff-match-patch, lxml, requests
+- spaCy, TextBlob, NLTK (untuk mode sensitif/NLP)
 
-## Project Structure
+## Struktur Proyek
 
 ```
-compressio/
+Compressio/
 ├── backend/
 │   ├── app.py
-│   ├── utils/
-│   │   ├── file_utils.py
-│   │   ├── huffman.py
-│   │   └── rle.py
-├── frontend/
+│   ├── main.py
+│   ├── requirements.txt
+│   └── utils/
+├── docs/
 │   ├── index.html
-│   ├── result.html
 │   ├── about.html
-│   ├── login.html
 │   ├── css/
-│   │   └── style.css
 │   ├── js/
-│   │   ├── app.js
-│   │   ├── compress.js
-│   │   └── auth.js
 │   └── assets/
-├── static/
+├── tmp/
 │   ├── uploads/
 │   └── downloads/
-└── README.md
+├── README.md
+└── requirements.txt
 ```
 
-## Setup Instructions
+## Setup & Instalasi
 
-1. Clone the repository:
+1. **Clone repository:**
 ```bash
 git clone https://github.com/yourusername/compressio.git
 cd compressio
 ```
 
-2. Set up the backend:
+2. **Setup backend:**
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Windows:
+venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-3. Configure Firebase:
-   - Create a new Firebase project
-   - Enable Google Authentication
-   - Add your Firebase configuration to `frontend/js/auth.js`
-
-4. Run the backend server:
+3. **Jalankan backend (FastAPI):**
 ```bash
-python app.py
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-5. For frontend development:
-   - Use VS Code Live Server or any static file server
-   - Open `frontend/index.html` in your browser
+4. **Frontend:**
+   - Buka file `docs/index.html` di browser, atau
+   - Jalankan static server (misal: `python -m http.server` di folder `docs/`)
 
-## Usage
+5. **Konfigurasi Firebase (opsional):**
+   - Buat project Firebase, aktifkan Google Authentication
+   - Tambahkan konfigurasi Firebase ke `docs/js/auth.js`
 
-1. Open the application in your browser
-2. Sign in with Google (optional)
-3. Upload files for compression/decompression
-4. View compression history and download results
+## Penggunaan
 
-## Limitations
+1. Buka aplikasi di browser
+2. (Opsional) Login dengan Google
+3. Upload file untuk kompresi
+4. Pilih metode & profil kompresi, aktifkan mode sensitif jika perlu
+5. Proses file, lihat hasil di riwayat, download atau compare hasil kompresi
 
-- Non-authenticated users are limited to 5 compressions per session
-- Authenticated users have unlimited compression access
-- Supported file types: .png, .jpg, .txt, .pdf
+## Supported File Types
+- Gambar: PNG, JPEG, WebP
+- Dokumen: TXT, PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX
+- Arsip: ZIP, RAR
+- Video: MP4, MPEG, MOV
+- Audio: MP3, WAV
+- Lainnya: JSON, BIN
 
-## License
+## Limitasi
+- Pengguna tanpa login: maksimal 5 kompresi per sesi
+- Pengguna login: tanpa batas
 
+## Lisensi
 MIT License
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. 
+## Kontribusi
+Kontribusi sangat terbuka! Silakan buat Pull Request atau Issue untuk perbaikan/fitur baru. 
