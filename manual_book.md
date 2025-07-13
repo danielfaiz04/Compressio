@@ -153,4 +153,4 @@ Manual book ini bertujuan membantu pengguna memahami cara kerja Compressio, mula
   - *Mode Sensitif*: Fitur deteksi konten sensitif pada file teks.
 - **Diagram Alur Kerja:**
   ![Alur Kerja Compressio](docs/assets/logo.png) <!-- Ganti dengan diagram jika tersedia -->
-- **Link Desain Figma:** [Figma Compressio](#) (link placeholder) 
+- **Link Desain Figma:** [Figma Compressio](#) (link placeholder)
