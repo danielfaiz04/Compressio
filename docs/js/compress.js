@@ -235,22 +235,16 @@ class FileCompressor {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${entry.fileName}</td>
-                <td>${formatSize(entry.originalSize)}</td> <!-- Use global formatSize -->
-                <td>${formatSize(entry.compressedSize)}</td> <!-- Use global formatSize -->
+                <td>${formatSize(entry.originalSize)}</td>
+                <td>${formatSize(entry.compressedSize)}</td>
                 <td>${entry.ratio.toFixed(1)}%</td>
                 <td>
-                    ${entry.fileId && entry.compressedFilename ? `
-                    <button class="btn btn-sm btn-download" onclick="fileCompressor.downloadFile('${entry.fileId}')">
-                        ${translations[getCurrentLanguage()].downloadCompressed}
+                    <button class="btn btn-sm btn-primary" onclick="fileCompressor.downloadFile('${entry.fileId}')">
+                        ${translations[getCurrentLanguage()].download}
                     </button>
-                    <button class="btn btn-sm btn-info ms-1" onclick="fileCompressor.downloadFile('${entry.fileId}', true)">
-                        ${translations[getCurrentLanguage()].downloadOriginal}
+                    <button class="btn btn-sm btn-info ms-1" onclick="fileCompressor.showCompareModal('${entry.fileId}')">
+                        ${translations[getCurrentLanguage()].compare}
                     </button>
-                    ` : `
-                    <button class="btn btn-sm btn-secondary" disabled>
-                        ${entry.message}
-                    </button>
-                    `}
                     <button class="btn btn-sm btn-danger ms-1" onclick="fileCompressor.deleteHistoryEntry('${entry.timestamp}')">
                         ${translations[getCurrentLanguage()].delete}
                     </button>
@@ -314,6 +308,97 @@ class FileCompressor {
         } catch (error) {
             console.error('Download error:', error);
             showToast(error.message || translations[getCurrentLanguage()].downloadFailed || 'Pengunduhan gagal', 'error');
+        }
+    }
+
+    async showCompareModal(fileId) {
+        try {
+            const API_KEY = "demo-key-123";
+            const headers = { "X-API-Key": API_KEY };
+            // Ambil metadata hasil kompresi
+            const resultRes = await fetch(`${API_BASE_URL}/result/${fileId}`, { method: 'GET', headers });
+            const result = await resultRes.json();
+            if (!resultRes.ok) throw new Error(result.detail || 'Failed to fetch result');
+            // Ambil file asli (preview/info)
+            const origRes = await fetch(`${API_BASE_URL}/download/${fileId}?original=true`, { method: 'GET', headers });
+            const origBlob = await origRes.blob();
+            // Ambil file kompresi (preview/info)
+            const compRes = await fetch(`${API_BASE_URL}/download/${fileId}`, { method: 'GET', headers });
+            const compBlob = await compRes.blob();
+            // Buat URL untuk preview
+            const origUrl = URL.createObjectURL(origBlob);
+            const compUrl = URL.createObjectURL(compBlob);
+            // Siapkan konten modal
+            const lang = getCurrentLanguage();
+            const t = translations[lang];
+            let previewHtml = '';
+            // Preview gambar
+            if (result.original_filename.match(/\.(jpg|jpeg|png|webp)$/i)) {
+                previewHtml = `
+                    <div class="row mb-3">
+                        <div class="col text-center">
+                            <div><strong>${t.originalSize}</strong></div>
+                            <img src="${origUrl}" alt="Original" style="max-width:100%;max-height:200px;">
+                            <div class="small mt-1">${t.fileName}: ${result.original_filename}<br>${t.originalSize}: ${formatSize(result.size_before)}</div>
+                        </div>
+                        <div class="col text-center">
+                            <div><strong>${t.compressedSize}</strong></div>
+                            <img src="${compUrl}" alt="Compressed" style="max-width:100%;max-height:200px;">
+                            <div class="small mt-1">${t.fileName}: ${result.compressed_filename}<br>${t.compressedSize}: ${formatSize(result.size_after)}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Untuk file non-gambar, tampilkan info saja
+                previewHtml = `
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div><strong>${t.fileName}:</strong> ${result.original_filename}</div>
+                            <div><strong>${t.originalSize}:</strong> ${formatSize(result.size_before)}</div>
+                        </div>
+                        <div class="col">
+                            <div><strong>${t.fileName}:</strong> ${result.compressed_filename}</div>
+                            <div><strong>${t.compressedSize}:</strong> ${formatSize(result.size_after)}</div>
+                        </div>
+                    </div>
+                `;
+            }
+            // Info detail
+            const infoHtml = `
+                <div class="mb-2"><strong>${t.ratio}:</strong> ${result.ratio.toFixed(1)}%</div>
+                <div class="mb-2"><strong>${t.method || 'Method'}:</strong> ${result.compression_method}</div>
+            `;
+            // Modal HTML
+            let modal = document.getElementById('compareModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'compareModal';
+                modal.className = 'modal fade';
+                modal.tabIndex = -1;
+                modal.innerHTML = `
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">${t.compare}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body" id="compareModalBody"></div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+            document.getElementById('compareModalBody').innerHTML = previewHtml + infoHtml;
+            // Tampilkan modal (Bootstrap 5)
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            // Revoke object URLs saat modal ditutup
+            modal.addEventListener('hidden.bs.modal', () => {
+                URL.revokeObjectURL(origUrl);
+                URL.revokeObjectURL(compUrl);
+            }, { once: true });
+        } catch (err) {
+            showToast(err.message || 'Failed to compare files', 'error');
         }
     }
 }

@@ -18,15 +18,16 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
-from backend.utils.utils_image import optimize_image_webp, compare_images
-from backend.utils.utils_pdf import optimize_pdf, compare_pdfs
-from backend.utils.utils_video import optimize_video, compare_videos
-from backend.compare_utils import get_file_type, calculate_compression_ratio
-from backend.nlp_utils import detect_sensitive_entities
-from backend.diff_utils import create_diff_patch, apply_diff_patch
-from backend.office_optimize import optimize_office_document
-from backend.utils_ai_selector import ai_select_compression_method
-from backend.cleanup import cleanup_old_files
+# Import local modules
+from utils.utils_image import optimize_image_webp, compare_images
+from utils.utils_pdf import optimize_pdf, compare_pdfs
+from utils.utils_video import optimize_video, compare_videos
+from compare_utils import get_file_type, calculate_compression_ratio
+from nlp_utils import detect_sensitive_entities
+from diff_utils import create_diff_patch, apply_diff_patch
+from office_optimize import optimize_office_document
+from utils_ai_selector import ai_select_compression_method
+from cleanup import cleanup_old_files
 
 # Load environment variables
 load_dotenv()

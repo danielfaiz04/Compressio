@@ -50,20 +50,53 @@
                         <form id="uploadForm" class="mb-4">
                             <!-- Drop Zone Area -->
                             <div id="dropZone" class="text-center p-5 border border-dashed rounded mb-4" style="cursor: pointer;" aria-label="Drag and drop files here">
-                                <h3>Seret & Lepas File Di Sini</h3>
-                                <p>atau</p>
-                                <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()" id="chooseFilesButton" aria-label="Pilih File">Pilih File</button>
+                                <h3 data-translate-key="dragDrop">Seret & Lepas File Di Sini</h3>
+                                <p data-translate-key="or">atau</p>
+                                <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()" id="chooseFilesButton" aria-label="Pilih File" data-translate-key="chooseFiles">Pilih File</button>
                             </div>
                             
                             <input type="file" id="fileInput" class="d-none" accept=".jpg,.jpeg,.png,.txt,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.mp4,.mpeg,.mov,.mp3,.wav,.json,.bin" aria-label="File input for compression">
 
                             <!-- Display selected file name here -->
                             <div id="selectedFileName" class="mb-3 text-muted" style="display: none;">
-                                File dipilih: <span id="fileNameDisplay"></span>
+                                <span data-translate-key="fileSelected">File dipilih:</span> <span id="fileNameDisplay"></span>
                                 <button type="button" class="btn btn-sm btn-outline-danger ms-2" id="clearFileSelection" aria-label="Clear file selection">X</button>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100" id="processFileBtn" aria-label="Process File" title="Process File">Process File</button>
+                            <!-- Compression Options -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="compressionMethod" class="form-label" data-translate-key="compressionMethod">Metode Kompresi:</label>
+                                    <select class="form-select" id="compressionMethod" name="compressionMethod">
+                                        <option value="ai" data-translate-key="aiSelection">AI Selection (Otomatis)</option>
+                                        <option value="gzip" data-translate-key="gzipCompression">Gzip Compression</option>
+                                        <option value="brotli" data-translate-key="brotliCompression">Brotli Compression</option>
+                                        <option value="webp" data-translate-key="webpOptimization">WebP Optimization</option>
+                                        <option value="pdf_optimize" data-translate-key="pdfOptimization">PDF Optimization</option>
+                                        <option value="office_optimize" data-translate-key="officeOptimization">Office Optimization</option>
+                                        <option value="video_optimize" data-translate-key="videoOptimization">Video Optimization</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="compressionProfile" class="form-label" data-translate-key="compressionProfile">Profil Kompresi:</label>
+                                    <select class="form-select" id="compressionProfile" name="compressionProfile">
+                                        <option value="default" data-translate-key="defaultProfile">Default</option>
+                                        <option value="web" data-translate-key="webProfile">Web</option>
+                                        <option value="archive" data-translate-key="archiveProfile">Archive</option>
+                                        <option value="network" data-translate-key="networkProfile">Network</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Sensitive Mode Toggle -->
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="sensitiveMode" name="sensitiveMode">
+                                <label class="form-check-label" for="sensitiveMode" data-translate-key="sensitiveMode">
+                                    Mode Sensitif (Deteksi konten sensitif)
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100" id="processFileBtn" aria-label="Process File" title="Process File" data-translate-key="processFile">Process File</button>
                         </form>
                     </div>
                 </div>

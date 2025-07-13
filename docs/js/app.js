@@ -11,8 +11,11 @@ const translations = {
         originalSize: 'Original Size',
         compressedSize: 'Compressed Size',
         ratio: 'Ratio',
+        method: 'Method',
         action: 'Action',
         download: 'Download',
+        compare: 'Compare',
+        delete: 'Delete',
         login: 'Login',
         logout: 'Logout',
         home: 'Home',
@@ -21,7 +24,7 @@ const translations = {
         compressionSuccess: 'File compressed successfully!',
         compressionFailed: 'Compression failed. Please try again.',
         downloadFailed: 'Download failed. Please try again.',
-        invalidFileType: 'Invalid file type. Please upload JPG, PNG, or TXT files.',
+        invalidFileType: 'Invalid file type. Please upload a supported file.',
         limitReached: 'Compression limit reached. Please login for unlimited access.',
         loginSuccess: 'Successfully logged in!',
         loginFailed: 'Login failed. Please try again.',
@@ -31,6 +34,26 @@ const translations = {
         offline: 'You are offline. Some features may not work.',
         noFileSelected: 'No file selected. Please choose a file to process.',
         errorProcessingFile: 'An error occurred during file processing.',
+        
+        // New compression options
+        compressionMethod: 'Compression Method:',
+        aiSelection: 'AI Selection (Automatic)',
+        gzipCompression: 'Gzip Compression',
+        brotliCompression: 'Brotli Compression',
+        webpOptimization: 'WebP Optimization',
+        pdfOptimization: 'PDF Optimization',
+        officeOptimization: 'Office Optimization',
+        videoOptimization: 'Video Optimization',
+        compressionProfile: 'Compression Profile:',
+        defaultProfile: 'Default',
+        webProfile: 'Web',
+        archiveProfile: 'Archive',
+        networkProfile: 'Network',
+        sensitiveMode: 'Sensitive Mode (Detect sensitive content)',
+        processFile: 'Process File',
+        fileSelected: "File Selected",
+        readyToCompress: "Ready to compress",
+        changeFile: "Change File",
         
         // About Page Translations
         aboutTitle: 'About Compressio',
@@ -54,9 +77,15 @@ const translations = {
         backendTitle: 'Backend',
         delete: 'Delete',
         historyEntryDeleted: 'History entry deleted successfully.',
-        fileSelected: "File Selected",
-        readyToCompress: "Ready to compress",
-        changeFile: "Change File"
+        
+        // Compression methods descriptions
+        aiDescription: 'Automatically selects the best compression method based on file type and content',
+        gzipDescription: 'Standard compression algorithm, good for general files',
+        brotliDescription: 'Modern compression algorithm, excellent for web content',
+        webpDescription: 'Optimizes images to WebP format for better compression',
+        pdfDescription: 'Optimizes PDF files by removing unnecessary metadata',
+        officeDescription: 'Optimizes Microsoft Office documents',
+        videoDescription: 'Optimizes video files for smaller size'
     },
     id: {
         title: 'Compressio',
@@ -69,8 +98,11 @@ const translations = {
         originalSize: 'Ukuran Asli',
         compressedSize: 'Ukuran Terkompresi',
         ratio: 'Rasio',
+        method: 'Metode',
         action: 'Aksi',
         download: 'Unduh',
+        compare: 'Bandingkan',
+        delete: 'Hapus',
         login: 'Masuk',
         logout: 'Keluar',
         home: 'Beranda',
@@ -79,7 +111,7 @@ const translations = {
         compressionSuccess: 'File berhasil dikompres!',
         compressionFailed: 'Kompresi gagal. Silakan coba lagi.',
         downloadFailed: 'Unduhan gagal. Silakan coba lagi.',
-        invalidFileType: 'Tipe file tidak valid. Silakan unggah file JPG, PNG, atau TXT.',
+        invalidFileType: 'Tipe file tidak valid. Silakan unggah file yang didukung.',
         limitReached: 'Batas kompresi tercapai. Silakan masuk untuk akses tak terbatas.',
         loginSuccess: 'Berhasil masuk!',
         loginFailed: 'Gagal masuk. Silakan coba lagi.',
@@ -89,6 +121,26 @@ const translations = {
         offline: 'Anda sedang offline. Beberapa fitur mungkin tidak berfungsi.',
         noFileSelected: 'Tidak ada file yang dipilih. Harap pilih file untuk diproses.',
         errorProcessingFile: 'Terjadi kesalahan selama pemrosesan file.',
+        
+        // New compression options (Bahasa Indonesia)
+        compressionMethod: 'Metode Kompresi:',
+        aiSelection: 'Pemilihan AI (Otomatis)',
+        gzipCompression: 'Kompresi Gzip',
+        brotliCompression: 'Kompresi Brotli',
+        webpOptimization: 'Optimasi WebP',
+        pdfOptimization: 'Optimasi PDF',
+        officeOptimization: 'Optimasi Office',
+        videoOptimization: 'Optimasi Video',
+        compressionProfile: 'Profil Kompresi:',
+        defaultProfile: 'Default',
+        webProfile: 'Web',
+        archiveProfile: 'Arsip',
+        networkProfile: 'Jaringan',
+        sensitiveMode: 'Mode Sensitif (Deteksi konten sensitif)',
+        processFile: 'Proses File',
+        fileSelected: "File Terpilih",
+        readyToCompress: "Siap untuk dikompresi",
+        changeFile: "Ganti File",
         
         // About Page Translations (Bahasa Indonesia)
         aboutTitle: 'Tentang Compressio',
@@ -121,9 +173,15 @@ const translations = {
         step5: 'Unduh Hasil: Setelah diproses, file yang dikompres/didekompres akan muncul di tabel "Kompresi Terbaru". Klik "Unduh" untuk menyimpannya.',
         delete: 'Hapus',
         historyEntryDeleted: 'Entri riwayat berhasil dihapus.',
-        fileSelected: "File Terpilih",
-        readyToCompress: "Siap untuk dikompresi",
-        changeFile: "Ganti File"
+        
+        // Compression methods descriptions (Bahasa Indonesia)
+        aiDescription: 'Secara otomatis memilih metode kompresi terbaik berdasarkan jenis file dan konten',
+        gzipDescription: 'Algoritma kompresi standar, bagus untuk file umum',
+        brotliDescription: 'Algoritma kompresi modern, sangat baik untuk konten web',
+        webpDescription: 'Mengoptimalkan gambar ke format WebP untuk kompresi yang lebih baik',
+        pdfDescription: 'Mengoptimalkan file PDF dengan menghapus metadata yang tidak perlu',
+        officeDescription: 'Mengoptimalkan dokumen Microsoft Office',
+        videoDescription: 'Mengoptimalkan file video untuk ukuran yang lebih kecil'
     }
 };
 
